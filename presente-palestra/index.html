@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Material de referência sobre Sono no TEA — presente da palestra de Camila Kammers em Ijuí">
+  <title>Sono no TEA — Material de Referência | Camila Kammers</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy-deep: #1E2E47;
+      --navy:      #2B4165;
+      --blue:      #3D5A80;
+      --steel:     #8BA3C7;
+      --steel-lt:  #C8D8EC;
+      --bg:        #F3F6FB;
+      --card:      #FFFFFF;
+      --text:      #1E2D3D;
+      --muted:     #5A6B7D;
+      --border:    #D8E6F3;
+      --hi:        #EBF2FA;
+      --sidebar:   270px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { height: 100%; font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100%;
+      overflow: hidden;
+      line-height: 1.65;
+    }
+
+    /* ── LAYOUT ─────────────────────────────────────── */
+
+    .layout {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── SIDEBAR ─────────────────────────────────────── */
+
+    .sidebar {
+      width: var(--sidebar);
+      min-width: var(--sidebar);
+      background: linear-gradient(180deg, var(--navy-deep) 0%, var(--navy) 100%);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      z-index: 10;
+    }
+
+    .sidebar::before {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      right: -80px;
+      width: 220px;
+      height: 220px;
+      background: rgba(139,163,199,0.06);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .sidebar-header {
+      padding: 32px 24px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .ck-logo {
+      width: 52px;
+      height: 52px;
+      margin-bottom: 14px;
+    }
+
+    .brand-name {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-subtitle {
+      display: block;
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--steel);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: 5px;
+    }
+
+    .nav-menu {
+      list-style: none;
+      padding: 18px 0;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .nav-menu li {
+      padding: 2px 14px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 11px 14px;
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,0.6);
+      font-family: 'Inter', sans-serif;
+      font-size: 13.5px;
+      font-weight: 400;
+      cursor: pointer;
+      border-radius: 10px;
+      text-align: left;
+      transition: all 0.18s ease;
+      letter-spacing: 0.01em;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.07);
+      color: #FFFFFF;
+    }
+
+    .nav-btn.active {
+      background: rgba(139,163,199,0.18);
+      color: #FFFFFF;
+      font-weight: 500;
+      border-left-color: var(--steel);
+    }
+
+    .nav-btn:focus-visible {
+      outline: 2px solid var(--steel);
+      outline-offset: 2px;
+    }
+
+    .nav-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      opacity: 0.65;
+    }
+
+    .nav-btn.active .nav-icon { opacity: 1; }
+
+    .nav-num {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background: rgba(139,163,199,0.2);
+      border-radius: 50%;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--steel);
+      text-align: center;
+      line-height: 20px;
+      flex-shrink: 0;
+    }
+
+    .nav-btn.active .nav-num {
+      background: var(--steel);
+      color: var(--navy-deep);
+    }
+
+    .sidebar-footer {
+      padding: 18px 24px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .sidebar-footer p {
+      font-size: 10.5px;
+      color: rgba(255,255,255,0.28);
+      line-height: 1.6;
+    }
+
+    /* ── MAIN ─────────────────────────────────────────── */
+
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      background: var(--bg);
+    }
+
+    .section {
+      display: none;
+      min-height: 100%;
+      padding: 48px 56px 64px;
+      animation: fadeUp 0.28s ease;
+    }
+
+    .section.active { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── TYPOGRAPHY ──────────────────────────────────── */
+
+    .eyebrow {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 34px;
+      font-weight: 700;
+      color: var(--navy-deep);
+      line-height: 1.22;
+      margin-bottom: 6px;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.3;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      font-size: 15.5px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.78;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 14px;
+    }
+
+    ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 5px 0;
+      font-size: 15.5px;
+      line-height: 1.65;
+      color: var(--text);
+    }
+
+    ul li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      min-width: 6px;
+      background: var(--steel);
+      border-radius: 50%;
+      margin-top: 9px;
+    }
+
+    strong { font-weight: 600; color: var(--navy); }
+
+    /* ── COMPONENTS ──────────────────────────────────── */
+
+    .sec-header {
+      margin-bottom: 36px;
+    }
+
+    .sec-header .bar {
+      width: 52px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--steel));
+      border-radius: 2px;
+      margin-top: 14px;
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, var(--navy-deep) 0%, var(--blue) 100%);
+      border-radius: 20px;
+      padding: 44px 48px;
+      display: flex;
+      gap: 36px;
+      align-items: center;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      right: -80px; top: -80px;
+      width: 320px; height: 320px;
+      background: rgba(139,163,199,0.08);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-text { flex: 1; position: relative; z-index: 1; }
+
+    .hero-text .eyebrow { color: rgba(200,216,236,0.8); }
+
+    .hero-text h1 {
+      color: #FFFFFF;
+      font-size: 36px;
+      margin-bottom: 14px;
+    }
+
+    .hero-text p {
+      color: rgba(255,255,255,0.8);
+      font-size: 15.5px;
+      margin-bottom: 0;
+    }
+
+    .hero-img {
+      width: 128px;
+      height: 170px;
+      border-radius: 14px;
+      object-fit: cover;
+      object-position: top center;
+      border: 3px solid rgba(255,255,255,0.18);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Card */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-bottom: 20px;
+    }
+
+    /* Intro callout */
+    .intro-callout {
+      background: var(--hi);
+      border-left: 4px solid var(--blue);
+      border-radius: 0 12px 12px 0;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+    }
+
+    .intro-callout p { margin-bottom: 0; font-size: 15.5px; }
+
+    /* Card grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .cat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 26px;
+    }
+
+    .cat-card h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+
+    .cat-icon {
+      width: 30px;
+      height: 30px;
+      min-width: 30px;
+      background: var(--steel-lt);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Alert box */
+    .alert {
+      background: #FFF9E6;
+      border: 1px solid #EDD060;
+      border-left: 4px solid #C89A00;
+      border-radius: 0 12px 12px 0;
+      padding: 20px 24px;
+      margin-top: 24px;
+    }
+
+    .alert h3 { color: #7A5A00; margin-bottom: 8px; }
+    .alert p  { color: #5C4400; margin-bottom: 10px; font-size: 15.5px; }
+    .alert p:last-child { margin-bottom: 0; }
+
+    /* Important note */
+    .note {
+      background: var(--hi);
+      border: 1px solid var(--steel-lt);
+      border-left: 4px solid var(--blue);
+      border-radius: 0 12px 12px 0;
+      padding: 20px 24px;
+      margin: 20px 0;
+    }
+
+    .note .note-label {
+      display: block;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
+
+    .note p { margin-bottom: 10px; font-size: 15.5px; }
+    .note p:last-child { margin-bottom: 0; }
+
+    .note ul li { font-size: 15.5px; }
+
+    /* Sleep table */
+    .sleep-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .sleep-table thead { background: var(--navy); }
+
+    .sleep-table thead th {
+      padding: 15px 22px;
+      text-align: left;
+      color: #FFFFFF;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .sleep-table tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    .sleep-table tbody tr:last-child { border-bottom: none; }
+
+    .sleep-table tbody tr:hover { background: var(--hi); }
+
+    .sleep-table td { padding: 15px 22px; font-size: 15.5px; }
+
+    .sleep-table td:first-child { font-weight: 500; color: var(--navy); }
+
+    .badge {
+      display: inline-block;
+      background: var(--steel-lt);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 13.5px;
+      padding: 4px 13px;
+      border-radius: 20px;
+    }
+
+    .sleep-obs { font-size: 13.5px; color: var(--muted); }
+
+    /* Pillars */
+    .pillars { display: flex; flex-direction: column; gap: 16px; }
+
+    .pillar {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .pillar-head {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 28px;
+    }
+
+    .pillar-num {
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      background: linear-gradient(135deg, var(--blue), var(--navy));
+      color: #FFFFFF;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .pillar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .pillar-body {
+      padding: 0 28px 22px;
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+    }
+
+    .pillar-body > p {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .pillar-body ul li { font-size: 15.5px; }
+
+    /* 3-col pillars intro */
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .pillar-intro-item {
+      background: var(--hi);
+      border-radius: 12px;
+      padding: 18px 18px;
+      text-align: center;
+    }
+
+    .pillar-intro-item .pil-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .pillar-intro-item p {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 0;
+    }
+
+    /* Prof note */
+    .prof-note {
+      background: linear-gradient(135deg, var(--navy-deep), var(--blue));
+      border-radius: 18px;
+      padding: 32px 36px;
+      margin-top: 28px;
+    }
+
+    .prof-note h3 {
+      color: #FFFFFF;
+      font-family: 'Playfair Display', serif;
+      font-size: 19px;
+      margin-bottom: 14px;
+    }
+
+    .prof-note p { color: rgba(255,255,255,0.82); margin-bottom: 12px; }
+    .prof-note p:last-child { color: rgba(255,255,255,0.6); margin-bottom: 0; font-size: 14.5px; font-style: italic; }
+
+    .prof-note ul li { color: rgba(255,255,255,0.82); font-size: 15px; }
+    .prof-note ul li::before { background: var(--steel); }
+
+    /* References */
+    .ref-list { list-style: none; padding: 0; }
+
+    .ref-list li {
+      display: flex;
+      gap: 14px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--text);
+    }
+
+    .ref-list li::before { display: none; }
+
+    .ref-n {
+      font-weight: 700;
+      color: var(--blue);
+      min-width: 26px;
+      font-size: 12.5px;
+      padding-top: 2px;
+    }
+
+    /* About */
+    .profile-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 22px;
+    }
+
+    .profile-banner {
+      background: linear-gradient(135deg, var(--navy-deep), var(--blue));
+      height: 112px;
+    }
+
+    .profile-body {
+      padding: 0 36px 36px;
+      display: flex;
+      gap: 28px;
+    }
+
+    .profile-photo-wrap {
+      margin-top: -56px;
+      flex-shrink: 0;
+    }
+
+    .profile-photo {
+      width: 112px;
+      height: 142px;
+      border-radius: 12px;
+      border: 4px solid #FFFFFF;
+      object-fit: cover;
+      object-position: top center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    .profile-info { padding-top: 18px; flex: 1; }
+
+    .profile-info h2 { margin-bottom: 3px; }
+
+    .profile-role {
+      font-size: 13.5px;
+      color: var(--blue);
+      font-weight: 500;
+      margin-bottom: 18px;
+      display: block;
+    }
+
+    /* Contact grid */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .contact-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px 18px;
+    }
+
+    .c-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .c-value { font-size: 14.5px; color: var(--blue); font-weight: 500; }
+
+    /* CTA */
+    .cta-box {
+      background: linear-gradient(135deg, var(--navy-deep), var(--blue));
+      border-radius: 16px;
+      padding: 30px 34px;
+      text-align: center;
+    }
+
+    .cta-box h3 {
+      color: #FFFFFF;
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .cta-box p { color: rgba(255,255,255,0.8); margin-bottom: 0; }
+
+    /* Intro nav guide */
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .guide-item {
+      background: var(--hi);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 18px;
+      text-align: center;
+    }
+
+    .guide-step {
+      width: 30px;
+      height: 30px;
+      background: var(--steel-lt);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--navy);
+      margin: 0 auto 10px;
+    }
+
+    .guide-item strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: var(--navy);
+    }
+
+    .guide-item p { font-size: 13px; margin-bottom: 0; color: var(--muted); }
+
+    /* Quote card */
+    .quote-card {
+      background: var(--hi);
+      border: 1px solid var(--steel-lt);
+      border-radius: 16px;
+      padding: 26px 30px;
+    }
+
+    .quote-card blockquote {
+      font-style: italic;
+      font-size: 15.5px;
+      color: var(--muted);
+      line-height: 1.75;
+      border-left: 3px solid var(--steel);
+      padding-left: 18px;
+      margin-bottom: 14px;
+    }
+
+    .quote-card .attribution {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--navy);
+      margin-bottom: 0;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────── */
+
+    @media (max-width: 860px) {
+      body { overflow: auto; }
+
+      .layout { flex-direction: column; height: auto; overflow: visible; }
+
+      .sidebar { width: 100%; min-width: 0; }
+
+      .nav-menu {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 10px 12px;
+        gap: 4px;
+      }
+
+      .nav-menu li { padding: 0; white-space: nowrap; }
+
+      .nav-btn { padding: 9px 14px; }
+
+      .main { overflow: visible; }
+
+      .section { padding: 28px 20px 48px; }
+
+      .hero { flex-direction: column-reverse; padding: 28px 28px; gap: 20px; }
+
+      .hero-img { width: 90px; height: 120px; }
+
+      .card-grid { grid-template-columns: 1fr; }
+
+      .three-col { grid-template-columns: 1fr; }
+
+      .guide-grid { grid-template-columns: 1fr; }
+
+      .contact-grid { grid-template-columns: 1fr; }
+
+      .profile-body { flex-direction: column; }
+
+      .profile-photo-wrap { margin-top: -44px; }
+
+      .sleep-table td, .sleep-table th { padding: 12px 14px; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ── SIDEBAR ──────────────────────────────────── -->
+  <nav class="sidebar" aria-label="Menu principal">
+    <div class="sidebar-header">
+      <div class="ck-logo">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M74 12 A43 43 0 1 0 74 88" stroke="#FFFFFF" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <line x1="54" y1="22" x2="54" y2="78" stroke="#8BA3C7" stroke-width="7" stroke-linecap="round"/>
+          <line x1="54" y1="50" x2="82" y2="22" stroke="#8BA3C7" stroke-width="7" stroke-linecap="round"/>
+          <line x1="54" y1="50" x2="82" y2="78" stroke="#8BA3C7" stroke-width="7" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="brand-name">Camila Kammers</span>
+      <span class="brand-subtitle">Sono no TEA</span>
+    </div>
+
+    <ul class="nav-menu" role="list">
+      <li>
+        <button class="nav-btn active" onclick="show('inicio')" tabindex="0" aria-current="page">
+          <span class="nav-num">01</span>
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          Início
+        </button>
+      </li>
+      <li>
+        <button class="nav-btn" onclick="show('sinais')" tabindex="0">
+          <span class="nav-num">02</span>
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          Sinais de alerta
+        </button>
+      </li>
+      <li>
+        <button class="nav-btn" onclick="show('quantidade')" tabindex="0">
+          <span class="nav-num">03</span>
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          Quantidade de sono
+        </button>
+      </li>
+      <li>
+        <button class="nav-btn" onclick="show('recomendacoes')" tabindex="0">
+          <span class="nav-num">04</span>
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+          Recomendações
+        </button>
+      </li>
+      <li>
+        <button class="nav-btn" onclick="show('referencias')" tabindex="0">
+          <span class="nav-num">05</span>
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          Referências
+        </button>
+      </li>
+      <li>
+        <button class="nav-btn" onclick="show('sobre')" tabindex="0">
+          <span class="nav-num">06</span>
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Sobre a Camila
+        </button>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <p>Material de referência científico<br>Palestra em Ijuí &mdash; 2026</p>
+    </div>
+  </nav>
+
+  <!-- ── MAIN CONTENT ──────────────────────────────── -->
+  <main class="main" id="main" tabindex="-1">
+
+    <!-- 01 INÍCIO ──────────────────────────────────── -->
+    <section class="section active" id="inicio" aria-labelledby="h-inicio">
+      <div class="hero">
+        <div class="hero-text">
+          <div class="eyebrow">Presente da palestra &mdash; Ijuí 2026</div>
+          <h1 id="h-inicio">Sono no TEA</h1>
+          <p>Material de referência científica sobre sono no Transtorno do Espectro Autista, desenvolvido para apoiar profissionais que atuam com crianças e adolescentes. Consulte quando precisar revisar conteúdo, orientar uma família ou embasar uma conduta clínica.</p>
+        </div>
+        <img src="assets/foto-camila.png" alt="Dra. Camila Kammers" class="hero-img">
+      </div>
+
+      <div class="card">
+        <h2>Como navegar este material</h2>
+        <p>Use o menu lateral para acessar cada seção. O conteúdo foi organizado em uma sequência lógica &mdash; do reconhecimento dos sinais aos parâmetros de referência, chegando às recomendações práticas baseadas em evidência.</p>
+        <div class="guide-grid">
+          <div class="guide-item">
+            <div class="guide-step">1</div>
+            <strong>Identifique</strong>
+            <p>Reconheça os sinais de alerta de privação de sono em crianças e adolescentes</p>
+          </div>
+          <div class="guide-item">
+            <div class="guide-step">2</div>
+            <strong>Avalie</strong>
+            <p>Verifique a quantidade de sono esperada por faixa etária, conforme a National Sleep Foundation</p>
+          </div>
+          <div class="guide-item">
+            <div class="guide-step">3</div>
+            <strong>Intervenha</strong>
+            <p>Aplique os 7 pilares de recomendações práticas baseadas em evidência para o sono no TEA</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>
+          "Este material é um presente para cada profissional que esteve comigo na palestra de Ijuí. Que ele sirva como referência prática no seu dia a dia &mdash; ao atender uma família, ao orientar pais ou ao embasar sua conduta clínica. O sono bem cuidado transforma crianças, famílias e trajetórias."
+        </blockquote>
+        <p class="attribution">Dra. Camila Kammers &mdash; Fisioterapeuta especializada em sono infantil</p>
+      </div>
+    </section>
+
+    <!-- 02 SINAIS ──────────────────────────────────── -->
+    <section class="section" id="sinais" aria-labelledby="h-sinais">
+      <div class="sec-header">
+        <div class="eyebrow">Seção 02</div>
+        <h1 id="h-sinais">Sinais de alerta de privação de sono</h1>
+        <div class="bar"></div>
+      </div>
+
+      <div class="intro-callout">
+        <p>A privação de sono não se manifesta de forma única ou isolada. Em crianças e adolescentes, especialmente no TEA, seus efeitos são amplos e impactam diferentes áreas do funcionamento &mdash; incluindo comportamento, aprendizado, regulação emocional, padrões de sono e dinâmica familiar. Os sinais costumam aparecer de forma combinada e, muitas vezes, são interpretados como dificuldades específicas, quando na realidade podem ter como base um sono insuficiente ou não reparador. <strong>Reconhecer esses sinais em conjunto é fundamental para uma avaliação adequada.</strong></p>
+      </div>
+
+      <div class="card-grid">
+
+        <div class="cat-card">
+          <h3>
+            <div class="cat-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3D5A80" stroke-width="2.2" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+            </div>
+            Comportamento
+          </h3>
+          <ul>
+            <li>Irritabilidade frequente</li>
+            <li>Crises emocionais mais intensas</li>
+            <li>Baixa tolerância à frustração</li>
+            <li>Hiperatividade (principalmente em crianças pequenas)</li>
+            <li>Impulsividade aumentada</li>
+            <li>Dificuldade em seguir regras ou limites</li>
+          </ul>
+        </div>
+
+        <div class="cat-card">
+          <h3>
+            <div class="cat-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3D5A80" stroke-width="2.2" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            Aprendizado e atenção
+          </h3>
+          <ul>
+            <li>Dificuldade de concentração</li>
+            <li>Queda no rendimento escolar</li>
+            <li>Esquecimento frequente</li>
+            <li>Dificuldade em consolidar novos aprendizados</li>
+            <li>Lentidão cognitiva ou desorganização</li>
+          </ul>
+        </div>
+
+        <div class="cat-card">
+          <h3>
+            <div class="cat-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3D5A80" stroke-width="2.2" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            Regulação emocional
+          </h3>
+          <ul>
+            <li>Maior reatividade emocional</li>
+            <li>Oscilações de humor</li>
+            <li>Ansiedade aumentada</li>
+            <li>Dificuldade de autorregulação</li>
+            <li>Maior dependência do adulto para se acalmar</li>
+          </ul>
+        </div>
+
+        <div class="cat-card">
+          <h3>
+            <div class="cat-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3D5A80" stroke-width="2.2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </div>
+            Sinais diretos do sono
+          </h3>
+          <ul>
+            <li>Dificuldade para acordar pela manhã</li>
+            <li>Sonolência durante o dia</li>
+            <li>Dormir mais aos finais de semana</li>
+            <li>Mau humor ao acordar</li>
+            <li>Necessidade excessiva de sonecas (fora da idade esperada)</li>
+            <li>Despertares noturnos frequentes</li>
+            <li>Resistência para dormir</li>
+          </ul>
+        </div>
+
+        <div class="cat-card">
+          <h3>
+            <div class="cat-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3D5A80" stroke-width="2.2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            Relação familiar
+          </h3>
+          <ul>
+            <li>Aumento do estresse familiar</li>
+            <li>Exaustão dos cuidadores</li>
+            <li>Maior conflito nas rotinas (principalmente à noite)</li>
+            <li>Dificuldade de manter consistência nas intervenções</li>
+          </ul>
+        </div>
+
+        <div class="cat-card" style="border-color: var(--steel); background: var(--hi);">
+          <h3>
+            <div class="cat-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3D5A80" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            Sinais frequentemente confundidos no TEA
+          </h3>
+          <ul>
+            <li>"Piora do comportamento"</li>
+            <li>"Regressão" em habilidades</li>
+            <li>"Desobediência"</li>
+            <li>"Falta de atenção"</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="alert">
+        <h3>Importante</h3>
+        <p>A privação de sono nem sempre aparece como "cansaço". Em crianças, e de forma ainda mais evidente no TEA, ela frequentemente se manifesta como desorganização comportamental, dificuldade de aprendizado ou alterações emocionais.</p>
+        <p>Por isso, é fundamental olhar além do óbvio e considerar o sono como um fator central no funcionamento da criança.</p>
+        <p>Se vários desses sinais estão presentes, é importante investigar o sono de forma mais aprofundada.</p>
+      </div>
+    </section>
+
+    <!-- 03 QUANTIDADE ──────────────────────────────── -->
+    <section class="section" id="quantidade" aria-labelledby="h-quantidade">
+      <div class="sec-header">
+        <div class="eyebrow">Seção 03</div>
+        <h1 id="h-quantidade">Quantidade de sono por idade</h1>
+        <div class="bar"></div>
+      </div>
+
+      <div class="card">
+        <h2>Quantas horas meu filho precisa dormir?</h2>
+        <p>Embora cada criança tenha suas particularidades, existem recomendações baseadas em evidências científicas que orientam o tempo de sono necessário para sustentar o desenvolvimento saudável. Essas recomendações consideram aspectos como maturação cerebral, necessidades fisiológicas e padrões típicos de sono em cada fase da infância e adolescência.</p>
+        <p style="margin-bottom: 0;">A seguir, você encontra as recomendações da <strong>National Sleep Foundation</strong>, amplamente utilizadas como referência clínica.</p>
+      </div>
+
+      <table class="sleep-table" aria-label="Recomendação de horas de sono por faixa etária">
+        <thead>
+          <tr>
+            <th scope="col">Faixa etária</th>
+            <th scope="col">Horas recomendadas</th>
+            <th scope="col">Observação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0 a 3 meses</td>
+            <td><span class="badge">14 &ndash; 17h</span> por dia</td>
+            <td class="sleep-obs">Incluindo sonecas</td>
+          </tr>
+          <tr>
+            <td>4 a 11 meses</td>
+            <td><span class="badge">12 &ndash; 15h</span> por dia</td>
+            <td class="sleep-obs">Incluindo sonecas</td>
+          </tr>
+          <tr>
+            <td>1 a 2 anos</td>
+            <td><span class="badge">11 &ndash; 14h</span> por dia</td>
+            <td class="sleep-obs">Incluindo sonecas</td>
+          </tr>
+          <tr>
+            <td>3 a 5 anos</td>
+            <td><span class="badge">10 &ndash; 13h</span> por dia</td>
+            <td class="sleep-obs">Incluindo soneca</td>
+          </tr>
+          <tr>
+            <td>6 a 13 anos</td>
+            <td><span class="badge">9 &ndash; 11h</span> por dia</td>
+            <td class="sleep-obs">Sono noturno</td>
+          </tr>
+          <tr>
+            <td>14 a 17 anos</td>
+            <td><span class="badge">8 &ndash; 10h</span> por dia</td>
+            <td class="sleep-obs">Sono noturno</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <span class="note-label">Importante considerar</span>
+        <p>As horas de sono são um ponto de referência, mas não devem ser analisadas isoladamente. Uma criança pode até estar dentro da quantidade recomendada, mas ainda assim apresentar sinais de sono não reparador.</p>
+        <p>Por isso, é fundamental avaliar também:</p>
+        <ul>
+          <li>Qualidade do sono</li>
+          <li>Regularidade dos horários</li>
+          <li>Comportamento ao longo do dia</li>
+          <li>Facilidade para adormecer e acordar</li>
+        </ul>
+        <p>Mais do que atingir um número de horas, o essencial é garantir que o sono esteja cumprindo sua função no desenvolvimento.</p>
+      </div>
+    </section>
+
+    <!-- 04 RECOMENDAÇÕES ───────────────────────────── -->
+    <section class="section" id="recomendacoes" aria-labelledby="h-rec">
+      <div class="sec-header">
+        <div class="eyebrow">Seção 04</div>
+        <h1 id="h-rec">Recomendações práticas baseadas em evidência</h1>
+        <div class="bar"></div>
+      </div>
+
+      <div class="card" style="margin-bottom: 28px;">
+        <h2>Por que o sono precisa ser avaliado no TEA?</h2>
+        <p>Problemas de sono são frequentes em crianças e adolescentes com TEA e podem envolver dificuldade para iniciar o sono, resistência para dormir, despertares noturnos, sono fragmentado, despertar precoce e redução do tempo total de sono. A diretriz da <strong>American Academy of Neurology</strong> recomenda que, diante de problemas de sono no TEA, sejam avaliados fatores comportamentais, condições médicas coexistentes e medicamentos em uso antes de avançar para tratamento farmacológico.</p>
+        <p style="margin-bottom: 22px;">Sono inadequado pode impactar comportamento, aprendizado, regulação emocional e funcionamento familiar. Melhorar o sono não é apenas "fazer a criança dormir": é organizar uma base para melhor desenvolvimento, maior disponibilidade para aprender e melhor qualidade de vida da família.</p>
+
+        <h3>Os três pilares do sono reparador</h3>
+        <p style="margin-bottom: 0; font-size: 15px; color: var(--muted);">A avaliação do sono deve ir além da pergunta "ele dorme bem?". É necessário investigar horário, duração, qualidade, despertares, rotina, ambiente e funcionamento diurno.</p>
+        <div class="three-col">
+          <div class="pillar-intro-item">
+            <div class="pil-name">Quantidade</div>
+            <p>Número total de horas dormidas em 24 horas, considerando sono noturno e sonecas</p>
+          </div>
+          <div class="pillar-intro-item">
+            <div class="pil-name">Qualidade</div>
+            <p>Continuidade do sono, facilidade para voltar a dormir, ausência de sono agitado ou desconfortos</p>
+          </div>
+          <div class="pillar-intro-item">
+            <div class="pil-name">Regularidade</div>
+            <p>Horários consistentes para dormir e acordar, inclusive aos fins de semana</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pillars">
+
+        <div class="pillar">
+          <div class="pillar-head">
+            <div class="pillar-num">1</div>
+            <div class="pillar-title">Rotina e previsibilidade</div>
+          </div>
+          <div class="pillar-body">
+            <ul>
+              <li>Manter horário regular para dormir e acordar, inclusive aos finais de semana, garantindo que a criança faça a necessidade de sono que tem</li>
+              <li>Criar uma sequência curta e repetitiva antes de dormir: banho, pijama, história, cama</li>
+              <li>Usar rotina visual com figuras, cartões ou quadro de sequência</li>
+              <li>Antecipar mudanças com aviso prévio: "faltam 10 minutos para dormir"</li>
+              <li>Evitar negociações longas ou mudanças frequentes na rotina</li>
+              <li>Garantir exposição à luz natural durante o dia, especialmente pela manhã</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-head">
+            <div class="pillar-num">2</div>
+            <div class="pillar-title">Ambiente de sono</div>
+          </div>
+          <div class="pillar-body">
+            <p>Muitas crianças com TEA têm hipersensibilidade sensorial, o que pode afetar tanto o início quanto a manutenção do sono.</p>
+            <ul>
+              <li>Preferência pelo quarto completamente escuro para dormir</li>
+              <li>Cuidar com estímulos auditivos que possam impactar o sono &mdash; quarto silencioso é mais favorável</li>
+              <li>A temperatura ideal para o sono é entre 18 e 22&nbsp;&deg;C; observar sensibilidade a frio ou calor no TEA</li>
+              <li>Evitar excesso de estímulos visuais no quarto</li>
+              <li>Manter o quarto previsível, neutro e associado ao descanso</li>
+              <li>Evitar que a cama seja usada como local de brincadeira, alimentação ou telas</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-head">
+            <div class="pillar-num">3</div>
+            <div class="pillar-title">Organização do dia e ritmo circadiano</div>
+          </div>
+          <div class="pillar-body">
+            <p>O sono da noite começa durante o dia. O relógio biológico responde a pistas como luz, horários de refeições, atividade física e regularidade da rotina.</p>
+            <ul>
+              <li>Expor a criança à luz natural pela manhã e ao longo do dia</li>
+              <li>Manter horários regulares das principais refeições (almoço e jantar)</li>
+              <li>Incentivar atividade física adequada durante o dia</li>
+              <li>Evitar atividades muito estimulantes próximo ao horário de dormir</li>
+              <li>Observar se sonecas tardias ou muito longas estão atrasando o sono noturno</li>
+              <li>Reduzir luz intensa à noite</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-head">
+            <div class="pillar-num">4</div>
+            <div class="pillar-title">Telas e estimulação noturna</div>
+          </div>
+          <div class="pillar-body">
+            <p>Telas podem dificultar o sono por dois caminhos: aumentam a estimulação cognitiva e podem interferir na sinalização biológica de noite, especialmente quando usadas próximo ao horário de dormir.</p>
+            <ul>
+              <li>Retirar telas 1 a 2 horas antes de dormir</li>
+              <li>Evitar celular, tablet, televisão e jogos no quarto</li>
+              <li>Substituir por atividades calmas e previsíveis, como leitura, história, música tranquila ou rotina visual</li>
+              <li>Reduzir luz intensa no período noturno</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-head">
+            <div class="pillar-num">5</div>
+            <div class="pillar-title">Alimentação</div>
+          </div>
+          <div class="pillar-body">
+            <p>Horários e tipo de alimentação podem influenciar conforto físico, ritmo circadiano e disposição para dormir.</p>
+            <ul>
+              <li>Manter refeições principais com regularidade</li>
+              <li>Evitar cafeína à tarde e à noite</li>
+              <li>Evitar excesso de açúcar próximo ao horário de dormir</li>
+              <li>Preferir jantar leve, com intervalo adequado antes de deitar</li>
+              <li>Observar refluxo, constipação, dor abdominal, alergias alimentares ou desconfortos que possam fragmentar o sono</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-head">
+            <div class="pillar-num">6</div>
+            <div class="pillar-title">Associações de sono e autonomia</div>
+          </div>
+          <div class="pillar-body">
+            <p>Associações de sono são condições que a criança aprende a precisar para adormecer. Algumas são simples e sustentáveis. Outras são difíceis de manter durante a noite, como colo, ninar por longos períodos, presença constante, carro, mamadeira ou tela.</p>
+            <ul>
+              <li>Evitar dependências difíceis de sustentar durante a madrugada</li>
+              <li>Se já houver associação forte, fazer retirada gradual da ajuda</li>
+              <li>Fazer a criança adormecer e amanhecer no mesmo lugar, evitando troca de leito ou quarto no meio da noite</li>
+              <li>Se acordar à noite, conduzir de forma previsível, breve e consistente</li>
+              <li>Evitar transformar despertares em interação prolongada, brincadeira ou negociação</li>
+            </ul>
+            <div class="note" style="margin-bottom: 0; margin-top: 14px;">
+              <p style="margin-bottom: 0;">Associações inadequadas podem contribuir para despertares frequentes, porque a criança desperta entre ciclos e precisa da mesma condição para voltar a dormir.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-head">
+            <div class="pillar-num">7</div>
+            <div class="pillar-title">Regulação sensorial</div>
+          </div>
+          <div class="pillar-body">
+            <p>Algumas crianças chegam à noite sensorialmente sobrecarregadas; outras buscam estímulos para organizar o corpo. A intervenção precisa considerar o perfil sensorial individual.</p>
+            <ul>
+              <li>Observar se a criança precisa reduzir estímulos antes de dormir</li>
+              <li>Ajustar luz, som, temperatura, textura de roupas e cobertas</li>
+              <li>Usar estratégias calmantes individualizadas, como banho morno, pressão profunda ou objeto de conforto seguro, quando isso fizer sentido para a criança</li>
+              <li>Evitar brincadeiras corporais intensas perto da hora de dormir se aumentarem ativação</li>
+              <li>Manter uma sequência previsível de desaceleração</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="prof-note">
+        <h3>Quando buscar profissional especializado</h3>
+        <p>Nem sempre, mesmo com as orientações acima, o sono melhora apenas com ajustes feitos pela família ou pelo terapeuta. Isso não significa que algo está sendo feito errado. O sono é multifatorial, especialmente no TEA, e pode envolver fatores comportamentais, sensoriais, biológicos e ambientais que exigem uma análise mais aprofundada.</p>
+        <p>Nesses casos, a avaliação e o acompanhamento de um profissional especializado em sono podem ser fundamentais. Um olhar técnico permite:</p>
+        <ul>
+          <li>Identificar fatores que não estão evidentes no dia a dia</li>
+          <li>Estruturar um plano de intervenção individualizado</li>
+          <li>Ajustar estratégias de forma progressiva e segura</li>
+          <li>Orientar a família na condução prática das noites</li>
+          <li>Avaliar a necessidade de encaminhamento para investigação médica</li>
+        </ul>
+        <p>Conte com a Camila para apoiar nesse processo, com base na experiência de quem já acompanhou inúmeras famílias nessa jornada.</p>
+      </div>
+    </section>
+
+    <!-- 05 REFERÊNCIAS ─────────────────────────────── -->
+    <section class="section" id="referencias" aria-labelledby="h-ref">
+      <div class="sec-header">
+        <div class="eyebrow">Seção 05</div>
+        <h1 id="h-ref">Referências bibliográficas</h1>
+        <div class="bar"></div>
+      </div>
+
+      <div class="card">
+        <p style="font-size: 14.5px; color: var(--muted); margin-bottom: 22px;">26 referências científicas que embasam o conteúdo deste material.</p>
+
+        <ol class="ref-list">
+          <li><span class="ref-n">1</span><span>Mason GM, Lokhandwala S, Riggins T, Spencer RMC. Sleep and human cognitive development. <em>Sleep Med Rev.</em> 2021 Jun;57:101472.</span></li>
+          <li><span class="ref-n">2</span><span>Carskadon MA, Dement WC. Monitoring and staging human sleep. In: Kryger MH, Roth T, Dement WC (Eds.), <em>Principles and practice of sleep medicine</em>, 5th ed. (pp. 16&ndash;26). St. Louis: Elsevier Saunders; 2011.</span></li>
+          <li><span class="ref-n">3</span><span>Baranwal N, Yu PK, Siegel NS. Sleep physiology, pathophysiology, and sleep hygiene. <em>Prog Cardiovasc Dis.</em> 2023 Mar&ndash;Apr;77:59&ndash;69.</span></li>
+          <li><span class="ref-n">4</span><span>Gobetti RAP, Prado LBF, Carvalho LBC, Bueno C, Soster LSA. Distúrbios do Sono. In: Masruha M, Vilanova LCP. <em>Neurologia Infantil &ndash; Fundamentos e Prática Clínica.</em> São Paulo: Editora dos Editores; 2023. p. 727&ndash;792.</span></li>
+          <li><span class="ref-n">5</span><span>Schlieber M, Han J. The Role of Sleep in Young Children's Development: A Review. <em>J Genet Psychol.</em> 2021 Jul&ndash;Aug;182(4):205&ndash;217.</span></li>
+          <li><span class="ref-n">6</span><span>Elrod MG, Hood BS. Sleep differences among children with autism spectrum disorders and typically developing peers: a meta-analysis. <em>J Dev Behav Pediatr.</em> 2015;36(3):166&ndash;177.</span></li>
+          <li><span class="ref-n">7</span><span>Johnson KP, Zarrinnegar P. Autism Spectrum Disorder and Sleep. <em>Child Adolesc Psychiatr Clin N Am.</em> 2021;30(1):195&ndash;208.</span></li>
+          <li><span class="ref-n">8</span><span>Nogueira HA, de Castro CT, da Silva DCG, Pereira M. Melatonin for sleep disorders in people with autism: Systematic review and meta-analysis. <em>Prog Neuropsychopharmacol Biol Psychiatry.</em> 2023;123:110695.</span></li>
+          <li><span class="ref-n">9</span><span>Johnson KP, Zarrinnegar P. Autism Spectrum Disorder and Sleep. <em>Child Adolesc Psychiatr Clin N Am.</em> 2021;30(1):195&ndash;208.</span></li>
+          <li><span class="ref-n">10</span><span>Lee T, Kim J, Park KJ, Kim HW. Sleep difficulties and related behavioral problems in Korean preschool children. <em>Sleep Med.</em> 2021;87:119&ndash;126.</span></li>
+          <li><span class="ref-n">11</span><span>Madrid-Valero JJ, Ordoñana JR, Klump KL, Burt SA. Children Sleep and Antisocial Behavior: Differential Association of Sleep with Aggression and Rule-Breaking. <em>J Abnorm Child Psychol.</em> 2019;47(5):791&ndash;799.</span></li>
+          <li><span class="ref-n">12</span><span>Souders MC, Zavodny S, Eriksen W, Sinko R, Connell J, Kerns C, Schaaf R, Pinto-Martin J. Sleep in Children with Autism Spectrum Disorder. <em>Curr Psychiatry Rep.</em> 2017;19(6):34.</span></li>
+          <li><span class="ref-n">13</span><span>Hayashi M, Mishima K, Fukumizu M, Takahashi H, Ishikawa Y, Hamada I, Sugioka H, Yotsuya O, Yamashita Y. Melatonin Treatment and Adequate Sleep Hygiene Interventions in Children with Autism Spectrum Disorder: A Randomized Controlled Trial. <em>J Autism Dev Disord.</em> 2022;52(6):2784&ndash;2793.</span></li>
+          <li><span class="ref-n">14</span><span>Bathory E, Tomopoulos S. Sleep Regulation, Physiology and Development, Sleep Duration and Patterns, and Sleep Hygiene in Infants, Toddlers, and Preschool-Age Children. <em>Curr Probl Pediatr Adolesc Health Care.</em> 2017;47(2):29&ndash;42.</span></li>
+          <li><span class="ref-n">15</span><span>Agostini A, Centofanti S. Normal Sleep in Children and Adolescence. <em>Child Adolesc Psychiatr Clin N Am.</em> 2021;30(1):1&ndash;14.</span></li>
+          <li><span class="ref-n">16</span><span>Schreck KA, Richdale AL. Sleep problems, behavior, and psychopathology in autism: inter-relationships across the lifespan. <em>Curr Opin Psychol.</em> 2020;34:105&ndash;111.</span></li>
+          <li><span class="ref-n">17</span><span>Miano S, Giannotti F, Cortesi F. Sleep Disorders and Autism Spectrum Disorder. In: Mazzone L, Vitiello B (eds). <em>Psychiatric Symptoms and Comorbidities in Autism Spectrum Disorder.</em> Springer, Cham; 2016.</span></li>
+          <li><span class="ref-n">18</span><span>Tecar C, Chiperi LE, Iftimie BE, Popa LL, Sas V, Stefanescu E, Vacaras V, Muresanu DF. Sleep Disturbances and Behavioral Problems in Children and Adolescents with Autism Spectrum Disorder &mdash; A Systematic Review. <em>Clinics and Practice.</em> 2025;15(11):201.</span></li>
+          <li><span class="ref-n">19</span><span>Meltzer LJ, Mindell JA. Systematic review and meta-analysis of behavioral interventions for pediatric insomnia. <em>J Pediatr Psychol.</em> 2014;39(8):932&ndash;948.</span></li>
+          <li><span class="ref-n">20</span><span>Ogundele MO, Yemula C. Management of sleep disorders among children and adolescents with neurodevelopmental disorders: A practical guide for clinicians. <em>World J Clin Pediatr.</em> 2022;11(3):239&ndash;252.</span></li>
+          <li><span class="ref-n">21</span><span>Whelan S, Mannion A, Madden A, Berger F, Costello R, Ghadiri S, Leader G. Examining the Relationship Between Sleep Quality, Social Functioning, and Behavior Problems in Children with Autism Spectrum Disorder: A Systematic Review. <em>Nature and Science of Sleep.</em> 2022.</span></li>
+          <li><span class="ref-n">22</span><span>Auger RR et al. Clinical Practice Guideline for the Treatment of Intrinsic Circadian Rhythm Sleep-Wake Disorders: Advanced Sleep-Wake Phase Disorder, Delayed Sleep-Wake Phase Disorder, Non-24-Hour Sleep-Wake Rhythm Disorder, and Irregular Sleep-Wake Rhythm Disorder. <em>J Clin Sleep Med.</em></span></li>
+          <li><span class="ref-n">23</span><span>Lawson LP et al. ACT-i, an insomnia intervention for autistic adults: a pilot study. <em>Behav Cogn Psychother.</em> 2023;51(2):146&ndash;163.</span></li>
+          <li><span class="ref-n">24</span><span>Cortese S, Wang F, Angriman M, Masi G, Bruni O. Sleep Disorders in Children and Adolescents with Autism Spectrum Disorder: Diagnosis, Epidemiology, and Management. <em>CNS Drugs.</em> 2020;34(4):415&ndash;423.</span></li>
+          <li><span class="ref-n">25</span><span>McPhee PG et al. Harmonizing data on correlates of sleep in children within and across neurodevelopmental disorders: lessons learned from an Ontario Brain Institute cross-program collaboration. <em>Front Neuroinform.</em> 2024;18:1385526.</span></li>
+          <li><span class="ref-n">26</span><span>Petruzzelli MG et al. Subjective and Electroencephalographic Sleep Parameters in Children and Adolescents with Autism Spectrum Disorder: A Systematic Review. <em>J Clin Med.</em> 2021;10(17):3893.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 06 SOBRE A CAMILA ──────────────────────────── -->
+    <section class="section" id="sobre" aria-labelledby="h-sobre">
+      <div class="sec-header">
+        <div class="eyebrow">Seção 06</div>
+        <h1 id="h-sobre">Sobre a Camila</h1>
+        <div class="bar"></div>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-banner"></div>
+        <div class="profile-body">
+          <div class="profile-photo-wrap">
+            <img src="assets/foto-camila.png" alt="Dra. Camila Kammers" class="profile-photo">
+          </div>
+          <div class="profile-info">
+            <h2>Dra. Camila Kammers</h2>
+            <span class="profile-role">Fisioterapeuta especializada em sono infantil</span>
+            <p>A Dra. Camila Kammers é fisioterapeuta especializada em sono infantil, pós-graduada em Neurodesenvolvimento e seus Transtornos, com formação em Neurociências e com anos de experiência acompanhando famílias que sofrem com a privação de sono. Ela sabe que uma noite bem dormida transforma não apenas o bebê, mas toda a dinâmica familiar.</p>
+            <p style="margin-bottom: 0;">Seu método combina evidências científicas atualizadas com uma abordagem gentil e respeitosa ao desenvolvimento do bebê &mdash; sem técnicas de choro controlado, sem rigidez, com resultados reais já nos primeiros dias.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-item">
+          <div class="c-label">Instagram</div>
+          <div class="c-value">@camilakammers</div>
+        </div>
+        <div class="contact-item">
+          <div class="c-label">Site</div>
+          <div class="c-value">camilakammers.com.br</div>
+        </div>
+        <div class="contact-item">
+          <div class="c-label">E-mail</div>
+          <div class="c-value">[E-MAIL]</div>
+        </div>
+        <div class="contact-item">
+          <div class="c-label">WhatsApp</div>
+          <div class="c-value">[WHATSAPP]</div>
+        </div>
+      </div>
+
+      <div class="cta-box">
+        <h3>Acompanhamento profissional especializado</h3>
+        <p>Se você atende uma criança com TEA que apresenta dificuldades de sono, ou se quer aprofundar seu conhecimento nessa área, entre em contato. A Camila atende famílias e também oferece formação para profissionais.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  const ORDER = ['inicio','sinais','quantidade','recomendacoes','referencias','sobre'];
+
+  function show(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => {
+      b.classList.remove('active');
+      b.removeAttribute('aria-current');
+    });
+
+    const sec = document.getElementById(id);
+    if (sec) {
+      sec.classList.add('active');
+      document.getElementById('main').scrollTop = 0;
+    }
+
+    const idx = ORDER.indexOf(id);
+    const btns = document.querySelectorAll('.nav-btn');
+    if (btns[idx]) {
+      btns[idx].classList.add('active');
+      btns[idx].setAttribute('aria-current', 'page');
+    }
+  }
+
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
+    });
+  });
+</script>
+</body>
+</html>
