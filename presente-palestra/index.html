@@ -1447,6 +1447,24 @@
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
     });
   });
+
+  (function handleUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+    const hash = (window.location.hash || '').replace('#', '').toLowerCase();
+
+    const requested = (params.get('secao') || params.get('section') || hash || '').toLowerCase();
+    if (requested && ORDER.includes(requested)) {
+      show(requested);
+    }
+
+    const tracked = {};
+    ['ref', 'src', 'source', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term']
+      .forEach(k => { const v = params.get(k); if (v) tracked[k] = v; });
+    if (Object.keys(tracked).length) {
+      window.__pageParams = tracked;
+      try { sessionStorage.setItem('pageParams', JSON.stringify(tracked)); } catch (e) {}
+    }
+  })();
 </script>
 </body>
 </html>
